@@ -34,7 +34,6 @@ RUN apk --no-cache add perl wget xz tar fontconfig-dev \
 # Install Pandoc
 ENV PANDOC_VERSION 2.7.2
 ENV PANDOC_DOWNLOAD_URL https://github.com/jgm/pandoc/archive/$PANDOC_VERSION.tar.gz
-# ENV PANDOC_DOWNLOAD_SHA512 aee73f5fb2c4fbb2ad57440b655c3a8e21897b6621d53c6351be142e43c3002f5409d523139d4a964b15eef68e7498155a00f88c049110dacc1a1b4a2cf70dbf
 ENV PANDOC_DOWNLOAD_SHA512 4b3a21cf76777ed269bf7c13fd09ab1d5c97ed21ec9f02bff95fd3641ac9d52bde19a6e2ffb325378e611dfbe66b8b00769d8510a8b2fb1dfda8062d79b12233
 ENV PANDOC_ROOT /usr/local/pandoc
 ENV PATH $PATH:$PANDOC_ROOT/bin
@@ -63,6 +62,10 @@ RUN apk add --no-cache \
  && apk del --purge build-dependencies \
  && rm -Rf /root/.cabal/ /root/.ghc/ \
  && cd / && rm -Rf /pandoc-build
+
+# install pandoc-crossref
+RUN wget https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.4.1/linux-pandoc_2_7_2.tar.gz -q -O - | tar xz \
+ && mv pandoc-crossref /usr/bin/
 
 VOLUME ["/workspace", "/root/.pandoc/templates"]
 WORKDIR /workspace
