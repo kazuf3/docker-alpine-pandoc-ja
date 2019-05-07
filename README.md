@@ -1,12 +1,16 @@
-# alpine-pandoc-ja [![Docker Automated build](https://img.shields.io/docker/automated/k1low/alpine-pandoc-ja.svg?style=flat-square)](https://hub.docker.com/r/k1low/alpine-pandoc-ja/) [![Docker Automated build](https://img.shields.io/docker/build/k1low/alpine-pandoc-ja.svg?style=flat-square)](https://hub.docker.com/r/k1low/alpine-pandoc-ja/builds/) [![GitHub release](https://img.shields.io/github/release/k1low/docker-alpine-pandoc-ja.svg?style=flat-square)](https://github.com/k1LoW/docker-alpine-pandoc-ja/releases)
+# alpine-pandoc-ja [![Docker Automated build](https://img.shields.io/docker/automated/kumassy/alpine-pandoc-ja.svg?style=flat-square)](https://hub.docker.com/r/kumassy/alpine-pandoc-ja/) [![Docker Automated build](https://img.shields.io/docker/build/kumassy/alpine-pandoc-ja.svg?style=flat-square)](https://hub.docker.com/r/kumassy/alpine-pandoc-ja/builds/) [![GitHub release](https://img.shields.io/github/release/kumassy/docker-alpine-pandoc-ja.svg?style=flat-square)](https://github.com/kumassy/docker-alpine-pandoc-ja/releases)
 
-Pandoc for Japanese based on Alpine Linux.
+Pandoc for Japanese based on Alpine Linux. This image contains
+
+- Tex Live 2018
+- pandoc 2.7.2
+- pandoc-crossref 0.3.4.1
 
 ## Usage
 
 ```sh
-$ docker pull k1low/alpine-pandoc-ja
-$ docker run -it --rm -v `pwd`:/workspace k1low/alpine-pandoc-ja pandoc input.md -f markdown -o output.pdf -V documentclass=ltjarticle -V classoption=a4j -V geometry:margin=1in --pdf-engine=lualatex
+$ docker pull kumassy/alpine-pandoc-ja
+$ docker run -it --rm -v `pwd`:/workspace kumassy/alpine-pandoc-ja pandoc input.md -f markdown -o output.pdf --pdf-engine=lualatex
 ```
 
 ### Use Template
@@ -14,11 +18,12 @@ $ docker run -it --rm -v `pwd`:/workspace k1low/alpine-pandoc-ja pandoc input.md
 ```
 $ mkdir templates
 $ wget https://raw.githubusercontent.com/Wandmalfarbe/pandoc-latex-template/master/eisvogel.tex -O templates/eisvogel.tex
-$ docker run -it --rm -v `pwd`:/workspace -v `pwd`/templates:/root/.pandoc/templates k1low/pandoc:latest pandoc input.md -f markdown -o output.pdf -V documentclass=ltjarticle -V classoption=a4j -V geometry:margin=1in -V CJKmainfont=IPAexGothic --pdf-engine=lualatex --template eisvogel.tex --listings
+$ docker run -it --rm -v `pwd`:/workspace -v `pwd`/templates:/root/.pandoc/templates kumassy/pandoc:latest pandoc input.md -f markdown -o output.pdf --pdf-engine=lualatex --template eisvogel.tex
 ```
 
 ## Reference Dockerfile
 
+- [k1low/alpine-pandoc-ja](https://github.com/k1LoW/docker-alpine-pandoc-ja)
 - [portown/alpine-pandoc](https://github.com/portown/alpine-pandoc)
 - [paperist/alpine-texlive-ja](https://github.com/Paperist/docker-alpine-texlive-ja)
 

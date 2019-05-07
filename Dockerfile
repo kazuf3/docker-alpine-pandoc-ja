@@ -1,6 +1,6 @@
 FROM frolvlad/alpine-glibc
 
-LABEL maintainer="k1LoW <k1lowxb@gmail.com>" \
+LABEL maintainer="Kumassy <kumassyii@gmail.com>" \
       description="Pandoc for Japanese based on Alpine Linux."
 
 # Install Tex Live
