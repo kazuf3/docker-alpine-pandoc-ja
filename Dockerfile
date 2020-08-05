@@ -1,7 +1,7 @@
 FROM frolvlad/alpine-glibc
 
-LABEL maintainer="Kumassy <kumassyii@gmail.com>" \
-      description="Pandoc for Japanese based on Alpine Linux."
+LABEL maintainer="kazuf3 <steelheart.wolverine@gmail.com>" \
+      description="Pandoc for Japanese based on Alpine Linux + Haranoaji font."
 
 # Install Tex Live
 ENV TEXLIVE_VERSION 2018
@@ -29,43 +29,34 @@ RUN apk --no-cache add perl wget xz tar fontconfig-dev \
       luatexbase ctablestack fontspec luaotfload lualatex-math \
       sourcesanspro sourcecodepro \
  && rm -Rf /tmp/src \
- && apk --no-cache del xz tar fontconfig-dev
+ && apk --no-cache del xz 
+
+# Install font
+RUN mkdir /usr/share/fonts \
+ && wget -q https://github.com/trueroad/HaranoAjiFonts/archive/20200612.zip -O /usr/share/fonts/Haranoaji.zip \
+ && unzip /usr/share/fonts/Haranoaji.zip -d /usr/share/fonts/ \
+ && rm /usr/share/fonts/Haranoaji.zip \
+ && fc-cache -fv \
+ && mktexlsr
 
 # Install Pandoc
-ENV PANDOC_VERSION 2.7.2
-ENV PANDOC_DOWNLOAD_URL https://github.com/jgm/pandoc/archive/$PANDOC_VERSION.tar.gz
-ENV PANDOC_DOWNLOAD_SHA512 4b3a21cf76777ed269bf7c13fd09ab1d5c97ed21ec9f02bff95fd3641ac9d52bde19a6e2ffb325378e611dfbe66b8b00769d8510a8b2fb1dfda8062d79b12233
+ENV PANDOC_DOWNLOAD_URL https://github.com/jgm/pandoc/releases/download/2.10.1/pandoc-2.10.1-linux-amd64.tar.gz
 ENV PANDOC_ROOT /usr/local/pandoc
+ENV PANDOC_DOWNLOAD_SHA 5de8bcdf4c008e4521432cd4af86e7b8f6e309b8373a43b8d51b91825a1cc7e05fd59c24ef606b5ea92403383c9c5cb565f3c5f4335148b30cd4bc92211a7b83
 ENV PATH $PATH:$PANDOC_ROOT/bin
 
-RUN apk add --no-cache \
-    gmp \
-    libffi \
- && apk add --no-cache --virtual build-dependencies \
-    --repository "http://nl.alpinelinux.org/alpine/edge/community" \
-    ghc \
-    cabal \
-    linux-headers \
-    musl-dev \
-    zlib-dev \
-    curl \
- && mkdir -p /pandoc-build && cd /pandoc-build \
- && curl -fsSL "$PANDOC_DOWNLOAD_URL" -o pandoc.tar.gz \
- && echo "$PANDOC_DOWNLOAD_SHA512  pandoc.tar.gz" | sha512sum -c - \
- && tar -xzf pandoc.tar.gz && rm -f pandoc.tar.gz \
- && ( cd pandoc-$PANDOC_VERSION && cabal update && cabal install --only-dependencies \
-    && cabal configure --prefix=$PANDOC_ROOT \
-    && cabal build \
-    && cabal copy \
-    && cd .. ) \
- && rm -Rf pandoc-$PANDOC_VERSION/ \
- && apk del --purge build-dependencies \
- && rm -Rf /root/.cabal/ /root/.ghc/ \
- && cd / && rm -Rf /pandoc-build
+RUN apk add --no-cache curl \
+ && mkdir -p $PANDOC_ROOT \
+ && curl -fsSL "$PANDOC_DOWNLOAD_URL" -o $PANDOC_ROOT/pandoc.tar.gz \
+ # && echo "$PANDOC_DOWNLOAD_SHA $PANDOC_ROOT/pandoc.tar.gz" | sha512sum -c - \
+ && tar -xzf $PANDOC_ROOT/pandoc.tar.gz -C $PANDOC_ROOT/ && rm $PANDOC_ROOT/pandoc.tar.gz \
+ && mv $PANDOC_ROOT/pandoc-2.10.1/bin $PANDOC_ROOT/pandoc-2.10.1/share $PANDOC_ROOT/ 
 
-# install pandoc-crossref
-RUN wget https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.4.1/linux-pandoc_2_7_2.tar.gz -q -O - | tar xz \
- && mv pandoc-crossref /usr/bin/
+RUN cd / \
+ && curl -fsSL https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.7.0a/pandoc-crossref-Linux-2.10.1.tar.xz -q | tar xJ \
+ && mv pandoc-crossref /usr/bin
+
+RUN apk --no-cache del tar curl 
 
 VOLUME ["/workspace", "/root/.pandoc/templates"]
 WORKDIR /workspace
