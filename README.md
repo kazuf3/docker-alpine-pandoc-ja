@@ -1,16 +1,17 @@
-# alpine-pandoc-ja [![Docker Automated build](https://img.shields.io/docker/cloud/automated/kumassy/alpine-pandoc-ja.svg?style=flat-square)](https://hub.docker.com/r/kumassy/alpine-pandoc-ja/) [![Docker Automated build](https://img.shields.io/docker/cloud/build/kumassy/alpine-pandoc-ja.svg?style=flat-square)](https://hub.docker.com/r/kumassy/alpine-pandoc-ja/builds/) [![GitHub release](https://img.shields.io/github/release/kumassy/docker-alpine-pandoc-ja.svg?style=flat-square)](https://github.com/kumassy/docker-alpine-pandoc-ja/releases)
+# alpine-pandoc-ja [![Docker Automated build](https://img.shields.io/docker/build/kazuf3/docker-alpine-pandoc-ja)](https://hub.docker.com/repository/docker/kazuf3/docker-alpine-pandoc-ja/builds)
 
 Pandoc for Japanese based on Alpine Linux. This image contains
 
 - Tex Live 2018
-- pandoc 2.7.2
-- pandoc-crossref 0.3.4.1
+- pandoc 2.10.1
+- pandoc-crossref 2.10.1
+- Harano Aji Font 20200612
 
 ## Usage
 
 ```sh
-$ docker pull kumassy/alpine-pandoc-ja
-$ docker run -it --rm -v `pwd`:/workspace kumassy/alpine-pandoc-ja pandoc input.md -f markdown -o output.pdf --pdf-engine=lualatex
+$ docker pull kazuf3/alpine-pandoc-ja
+$ docker run -it --rm -v `pwd`:/workspace kazuf3/alpine-pandoc-ja pandoc input.md -f markdown -o output.pdf --pdf-engine=lualatex
 ```
 
 ### Use Template
@@ -23,6 +24,7 @@ $ docker run -it --rm -v `pwd`:/workspace -v `pwd`/templates:/root/.pandoc/templ
 
 ## Reference Dockerfile
 
+- [kumassy/docker-alpine-pandoc-ja](https://github.com/kumassy/docker-alpine-pandoc-ja)
 - [k1low/alpine-pandoc-ja](https://github.com/k1LoW/docker-alpine-pandoc-ja)
 - [portown/alpine-pandoc](https://github.com/portown/alpine-pandoc)
 - [paperist/alpine-texlive-ja](https://github.com/Paperist/docker-alpine-texlive-ja)
