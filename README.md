@@ -1,4 +1,4 @@
-# alpine-pandoc-ja [![Docker Automated build](https://img.shields.io/docker/build/kazuf3/docker-alpine-pandoc-ja)](https://hub.docker.com/repository/docker/kazuf3/docker-alpine-pandoc-ja/builds)
+# alpine-pandoc-ja [![Docker Automated build](https://img.shields.io/docker/cloud/build/kazuf3/docker-alpine-pandoc-ja)](https://hub.docker.com/repository/docker/kazuf3/docker-alpine-pandoc-ja/builds)
 
 Pandoc for Japanese based on Alpine Linux. This image contains
 
@@ -13,6 +13,16 @@ Pandoc for Japanese based on Alpine Linux. This image contains
 $ docker pull kazuf3/alpine-pandoc-ja
 $ docker run -it --rm -v `pwd`:/workspace kazuf3/alpine-pandoc-ja pandoc input.md -f markdown -o output.pdf --pdf-engine=lualatex
 ```
+
+You can use Harano Aji Font via:
+```
+---
+mainfont: Harano Aji Mincho
+CJKmainfont: Harano Aji Mincho
+---
+```
+
+or you will use IPAMincho.
 
 ### Use Template
 
