@@ -14,7 +14,7 @@ $ docker pull kazuf3/alpine-pandoc-ja
 $ docker run -it --rm -v `pwd`:/workspace kazuf3/alpine-pandoc-ja pandoc input.md -f markdown -o output.pdf --pdf-engine=lualatex
 ```
 
-You can use Harano Aji Font via:
+You can use Harano Aji Font via target markdown file header:
 ```
 ---
 mainfont: Harano Aji Mincho
